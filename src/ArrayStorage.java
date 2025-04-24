@@ -5,7 +5,7 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
-    private int maxNum = 0;
+    private int size = 0;
 
     void clear() {
         storage = new Resume[0];
@@ -14,13 +14,13 @@ public class ArrayStorage {
     void save(Resume r) {
         if (r == null) throw new
                 IllegalArgumentException("resume is null");
-        maxNum = maxNum + 1;
-        if (maxNum == 0) storage[0] = r;
-        else storage[maxNum] = r;
+        size++;
+        storage[0] = r;
+        storage[size] = r;
     }
 
     String get(String uuid) {
-        for (int i = 0; i < maxNum; i++) {
+        for (int i = 0; i < size; i++) {
             if (storage[i].uuid.equals(uuid)) {
                 return storage[i].toString();
             }
@@ -29,11 +29,11 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        for (int i = 0; i < maxNum; i++) {
+        for (int i = 0; i < size; i++) {
             if (storage[i].uuid.equals(uuid)) {
-                storage[i] = storage[maxNum - 1];
-                storage[maxNum - 1] = null;
-                maxNum--;
+                storage[i] = storage[size - 1];
+                storage[size - 1] = storage[size - 2];
+                size--;
             }
         }
     }
@@ -42,15 +42,15 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] resumes = new Resume[maxNum];
-        for (int i = 0; i < maxNum; i++) {
+        Resume[] resumes = new Resume[size];
+        for (int i = 0; i < size; i++) {
             resumes[i] = storage[i];
         }
         return resumes;
     }
 
     int size() {
-        return maxNum;
+        return size;
     }
 
     @Override
