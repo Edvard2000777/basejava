@@ -8,7 +8,9 @@ public class ArrayStorage {
     private int size = 0;
 
     void clear() {
-        storage = new Resume[0];
+        for (int i = 0; i < size; i++) {
+            storage[i] = null;
+        }
     }
 
     void save(Resume r) {
